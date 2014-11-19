@@ -1129,6 +1129,38 @@ class Html extends \yii\helpers\Html
     const TXT_COLOR_TEAL = 'txt-color-teal';
     const TXT_COLOR_REDLIGHT = 'txt-color-redLight';
 
+    const PULL_RIGHT = 'pull-right';
+    const PULL_LEFT = 'pull-left';
+
+    const JARVISWIDGET_COLOR_MAGENTA = 'jarviswidget-color-magenta';
+    const JARVISWIDGET_COLOR_PINK = 'jarviswidget-color-pink';
+    const JARVISWIDGET_COLOR_PINKDARK = 'jarviswidget-color-pinkDark';
+    const JARVISWIDGET_COLOR_YELLOW = 'jarviswidget-color-yellow';
+    const JARVISWIDGET_COLOR_ORANGE = 'jarviswidget-color-orange';
+    const JARVISWIDGET_COLOR_ORANGEDARK = 'jarviswidget-color-orangeDark';
+    const JARVISWIDGET_COLOR_DARKEN = 'jarviswidget-color-darken';
+    const JARVISWIDGET_COLOR_PURPLE = 'jarviswidget-color-purple';
+    const JARVISWIDGET_COLOR_TEAL = 'jarviswidget-color-teal';
+    const JARVISWIDGET_COLOR_BLUEDARK = 'jarviswidget-color-blueDark';
+    const JARVISWIDGET_COLOR_BLUE = 'jarviswidget-color-blue';
+    const JARVISWIDGET_COLOR_BLUELIGHT = 'jarviswidget-color-blueLight';
+    const JARVISWIDGET_COLOR_RED = 'jarviswidget-color-red';
+    const JARVISWIDGET_COLOR_REDLIGHT = 'jarviswidget-color-redLight';
+    const JARVISWIDGET_COLOR_WHITE = 'jarviswidget-color-white';
+    const JARVISWIDGET_COLOR_GREENDARK = 'jarviswidget-color-greenDark';
+    const JARVISWIDGET_COLOR_GREEN = 'jarviswidget-color-green';
+    const JARVISWIDGET_COLOR_GREENLIGHT = 'jarviswidget-color-greenLight';
+
+    public static function iconName($name)
+    {
+        $type = ArrayHelper::getValue(explode('-', $name), 0);
+        if (empty($type)) {
+            return '';
+        }
+
+        return $type . ' ' . $name;
+    }
+
     /**
      * Icon
      * @param string $name
@@ -1137,12 +1169,7 @@ class Html extends \yii\helpers\Html
      */
     public static function icon($name, $options = [])
     {
-        $type = ArrayHelper::getValue(explode('-', $name), 0);
-        if (empty($type)) {
-            return '';
-        }
-
-        static::addCssClass($options, $type . ' ' . $name);
+        static::addCssClass($options, static::iconName($name));
 
         $size = ArrayHelper::remove($options, 'size');
         if (!empty($size)) {
@@ -1496,5 +1523,33 @@ class Html extends \yii\helpers\Html
         }
 
         return static::radioSmart($name, $checked, $options);
+    }
+
+    /**
+     * Button header
+     * @param array $options
+     * @return string
+     */
+    public static function btnHeader($options = [])
+    {
+        // Icon
+        $icon = ArrayHelper::remove($options, 'icon');
+        if($icon === null) {
+            return '';
+        }
+        $iconOptions = ArrayHelper::remove($options, 'iconOptions', []);
+
+        // Div
+        static::addCssClass($options, 'btn-header');
+        $position = ArrayHelper::remove($options, 'position', self::PULL_RIGHT);
+        if(in_array($position, [self::PULL_LEFT, self::PULL_RIGHT])) {
+            static::addCssClass($options, $position);
+        }
+
+        // Link
+        $linkOptions = ArrayHelper::remove($options, 'linkOptions', []);
+        $url = ArrayHelper::remove($linkOptions, 'href', 'javascript:void(0);');
+
+        return static::tag('div', static::tag('span', static::a(static::icon($icon, $iconOptions), $url, $linkOptions)), $options);
     }
 }
