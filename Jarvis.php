@@ -1,6 +1,8 @@
 <?php
 namespace sersid\smartadmin;
 
+use yii\helpers\Html;
+
 class Jarvis extends \yii\base\Widget
 {
     /**
@@ -141,6 +143,54 @@ class Jarvis extends \yii\base\Widget
     public $color;
 
     /**
+     * Toolbar header
+     * @var string/array
+     */
+    public $toolbar;
+
+    /**
+     * Toolbar options
+     * @var array
+     */
+    public $toolbarOptions = [];
+
+    /**
+     * Body toolbar
+     * @var string/array
+     */
+    public $bodyToolbar;
+
+    /**
+     * Body toolbar options
+     * @var array
+     */
+    public $bodyToolbarOptions = [];
+
+    /**
+     * Footer
+     * @var string/array
+     */
+    public $footer;
+
+    /**
+     * Footer options
+     * @var array
+     */
+    public $footerOptions = [];
+
+    /**
+     * Edit box
+     * @var string
+     */
+    public $editbox = '<input class="form-control" type="text"><span class="note"><i class="fa fa-check text-success"></i> Change title to update and save instantly!</span>';
+
+    /**
+     * Editbox options
+     * @var array
+     */
+    public $editboxOptions = [];
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -154,19 +204,12 @@ class Jarvis extends \yii\base\Widget
         echo Html::beginTag('div', $this->options); // main div
         $this->getHeader();
         echo Html::beginTag('div');
-
-        // widget edit box
-        echo '
-        <div class="jarviswidget-editbox">
-            <!-- This area used as dropdown edit box -->
-            <input class="form-control" type="text">
-            <span class="note"><i class="fa fa-check text-success"></i> Change title to update and save instantly!</span>
-        </div>
-        ';
+        $this->getEditbox();
 
         // widget content
         Html::addCssClass($this->contentOptions, 'widget-body');
         echo Html::beginTag('div', $this->contentOptions);
+        $this->getBodyToolbar();
         echo $this->content;
     }
 
@@ -175,6 +218,7 @@ class Jarvis extends \yii\base\Widget
      */
     public function run()
     {
+        $this->getFooter();
         echo Html::endTag('div');
         echo Html::endTag('div');
         echo Html::endTag('div');
@@ -224,6 +268,7 @@ class Jarvis extends \yii\base\Widget
         if($this->header !== null) {
             echo Html::tag('h2', $this->header, $this->headerH2Options);
         }
+        $this->getToolbar();
         echo Html::endTag('header');
     }
 
@@ -235,6 +280,77 @@ class Jarvis extends \yii\base\Widget
         if($this->icon !== null) {
             Html::addCssClass($this->iconOptions, 'widget-icon');
             echo Html::tag('span', $this->icon, $this->iconOptions);
+        }
+    }
+
+    /**
+     * Get toolbar
+     */
+    protected function getToolbar()
+    {
+        if($this->toolbar !== null) {
+            Html::addCssClass($this->toolbarOptions, 'widget-toolbar');
+            $toolbars = is_string($this->toolbar) ? [$this->toolbar] : $this->toolbar;
+            foreach($toolbars as $i => $toolbar) {
+                if(is_array($toolbar)) {
+                    $content = isset($toolbar['content']) ? $toolbar['content'] : null;
+                    $options = isset($toolbar['options']) ? $toolbar['options'] : [];
+                    Html::addCssClass($options, 'widget-toolbar');
+                    echo Html::tag('div', $content, $options);
+                } else {
+                    echo Html::tag('div', $toolbar, $this->toolbarOptions);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get body toolbar
+     */
+    protected function getBodyToolbar()
+    {
+        if($this->bodyToolbar !== null) {
+            Html::addCssClass($this->bodyToolbarOptions, 'widget-body-toolbar');
+            $toolbars = is_string($this->bodyToolbar) ? [$this->bodyToolbar] : $this->bodyToolbar;
+            foreach($toolbars as $i => $toolbar) {
+                if(is_array($toolbar)) {
+                    $content = isset($toolbar['content']) ? $toolbar['content'] : null;
+                    $options = isset($toolbar['options']) ? $toolbar['options'] : [];
+                    Html::addCssClass($options, 'widget-body-toolbar');
+                    echo Html::tag('div', $content, $options);
+                } else {
+                    echo Html::tag('div', $toolbar, $this->bodyToolbarOptions);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get footer
+     */
+    protected function getFooter()
+    {
+        if($this->footer !== null) {
+            Html::addCssClass($this->footerOptions, 'widget-footer');
+            $footers = is_string($this->footer) ? [$this->footer] : $this->footer;
+            foreach($footers as $i => $footer) {
+                if(is_array($footer)) {
+                    $content = isset($footer['content']) ? $footer['content'] : null;
+                    $options = isset($footer['options']) ? $footer['options'] : [];
+                    Html::addCssClass($options, 'widget-footer');
+                    echo Html::tag('div', $content, $options);
+                } else {
+                    echo Html::tag('div', $footer, $this->footerOptions);
+                }
+            }
+        }
+    }
+
+    protected function getEditbox()
+    {
+        if($this->editbutton !== null || isset($this->options['data-widget-editbutton'])) {
+            Html::addCssClass($this->editboxOptions, 'jarviswidget-editbox');
+            echo Html::tag('div', $this->editbox, $this->editboxOptions);
         }
     }
 }
