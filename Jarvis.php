@@ -184,13 +184,13 @@ class Jarvis extends \yii\base\Widget
      * Edit box
      * @var string
      */
-    public $editbox = '<input class="form-control" type="text"><span class="note"><i class="fa fa-check text-success"></i> Change title to update and save instantly!</span>';
+    public $editBox = '<input class="form-control" type="text"><span class="note"><i class="fa fa-check text-success"></i> Change title to update and save instantly!</span>';
 
     /**
      * Editbox options
      * @var array
      */
-    public $editboxOptions = [];
+    public $editBoxOptions = [];
 
     /**
      * @var string
@@ -200,32 +200,12 @@ class Jarvis extends \yii\base\Widget
     /**
      * @var bool
      */
-    private $_headerBeginning = false;
-
-    /**
-     * @var bool
-     */
-    private $_iconBeginning = false;
-
-    /**
-     * @var bool
-     */
-    private $_toolbarBeginning = false;
+    private $_beginning = false;
 
     /**
      * @var array
      */
     private $_toolbarLastOptions = [];
-
-    /**
-     * @var bool
-     */
-    private $_addonBeginning = false;
-
-    /**
-     * @var bool
-     */
-    private $_editboxBeginning = false;
 
     /**
      * @var bool
@@ -236,11 +216,6 @@ class Jarvis extends \yii\base\Widget
      * @var array
      */
     private $_bodyToolbarLastOptions = [];
-
-    /**
-     * @var bool
-     */
-    private $_footerBeginning = false;
 
     /**
      * @inheritdoc
@@ -256,6 +231,8 @@ class Jarvis extends \yii\base\Widget
      */
     public function run()
     {
+        $this->_setBeginning(true);
+
         $body = ob_get_clean();
 
         if (!isset($this->options['id'])) {
@@ -290,63 +267,78 @@ class Jarvis extends \yii\base\Widget
         echo Html::endTag('div');
     }
 
+    /**
+     * Begin header
+     * [[beginHeader]]
+     * your data
+     * [[endHeader]]
+     * @throws Exception
+     */
     public function beginHeader()
     {
-        if($this->_headerBeginning == true) {
-            throw new Exception("Header was NOT beginning.");
-        }
-        $this->_headerBeginning = true;
+        $this->_setBeginning(true);
         ob_start();
     }
 
+    /**
+     * End header
+     * @throws Exception
+     */
     public function endHeader()
     {
-        if($this->_headerBeginning == false) {
-            return;
-        }
-        $header = ob_get_clean();
-        $this->header = trim($header);
-        $this->_headerBeginning = false;
+        $this->_setBeginning(false);
+        $this->header = trim(ob_get_clean());
     }
 
+    /**
+     * Begin icon
+     * [[beginIcon]]
+     * your data
+     * [[endIcon]]
+     * @param array $options Icon options
+     * @throws Exception
+     */
     public function beginIcon($options = [])
     {
-        if($this->_iconBeginning == true) {
-            throw new Exception("Icon was beginning.");
-        }
-        $this->_iconBeginning = true;
+        $this->_setBeginning(true);
         $this->iconOptions = ArrayHelper::merge($this->iconOptions, $options);
         ob_start();
     }
 
+    /**
+     * End icon
+     * @throws Exception
+     */
     public function endIcon()
     {
-        if($this->_iconBeginning == false) {
-            throw new Exception("Icon was NOT beginning.");
-        }
-        $icon = ob_get_clean();
-        $this->icon = trim($icon);
-        $this->_iconBeginning = false;
+        $this->_setBeginning(false);
+        $this->icon = trim(ob_get_clean());
     }
 
+    /**
+     * Begin toolbar
+     * [[beginToolbar]]
+     * your data
+     * [[endToolbar]]
+     * @param array $options Toolbar options
+     * @throws Exception
+     */
     public function beginToolbar($options = [])
     {
-        if($this->_toolbarBeginning == true) {
-            throw new Exception("Toolbar was beginning.");
-        }
-        $this->_toolbarBeginning = true;
+        $this->_setBeginning(true);
         $this->_toolbarLastOptions = $options;
         ob_start();
     }
 
+    /**
+     * End toolbar
+     * @throws Exception
+     */
     public function endToolbar()
     {
-        if($this->_toolbarBeginning == false) {
-            throw new Exception("Toolbar was NOT beginning.");
-        }
-        $toolbar = ob_get_clean();
-        $toolbar = trim($toolbar);
-        if($this->toolbar !== null && !is_array($this->toolbar)) {
+        $this->_setBeginning(false);
+        $toolbar = trim(ob_get_clean());
+        if(is_string($this->toolbar)) {
             $this->toolbar = [$this->toolbar];
         }
         $this->toolbar[] = [
@@ -354,66 +346,80 @@ class Jarvis extends \yii\base\Widget
             'options' => $this->_toolbarLastOptions,
         ];
         $this->_toolbarLastOptions = [];
-        $this->_toolbarBeginning = false;
     }
 
+    /**
+     * Begin addon
+     * [[beginAddon]]
+     * your data
+     * [[endAddon]]
+     * @throws Exception
+     */
     public function beginAddon()
     {
-        if($this->_addonBeginning == true) {
-            throw new Exception("Addon was beginning.");
-        }
-        $this->_addonBeginning = true;
+        $this->_setBeginning(true);
         ob_start();
     }
 
+    /**
+     * End addon
+     * @throws Exception
+     */
     public function endAddon()
     {
-        if($this->_addonBeginning == false) {
-            throw new Exception("Addon was NOT beginning.");
-        }
-        $addon = ob_get_clean();
-        $this->addon = trim($addon);
-        $this->_addonBeginning = false;
+        $this->_setBeginning(false);
+        $this->addon = trim(ob_get_clean());
     }
 
-    public function beginEditbox($options = [])
+    /**
+     * Begin Edit Box
+     * [[beginEditbox]]
+     * your data
+     * [[endEditbox]]
+     * @param array $options Editbox options
+     * @throws Exception
+     */
+    public function beginEditBox($options = [])
     {
-        if($this->_editboxBeginning == true) {
-            throw new Exception("Editbox was beginning.");
-        }
-        $this->_editboxBeginning = true;
-        $this->editboxOptions = ArrayHelper::merge($this->editboxOptions, $options);
+        $this->_setBeginning(true);
+        $this->editBoxOptions = ArrayHelper::merge($this->editBoxOptions, $options);
         ob_start();
     }
 
-    public function endEditbox()
+    /**
+     * End Edit box
+     * @throws Exception
+     */
+    public function endEditBox()
     {
-        if($this->_editboxBeginning == false) {
-            throw new Exception("Editbox was NOT beginning.");
-        }
-        $editbox = ob_get_clean();
-        $this->editbox = trim($editbox);
-        $this->_editboxBeginning = false;
+        $this->_setBeginning(false);
+        $this->editBox = trim(ob_get_clean());
     }
 
+    /**
+     * Begin Body Toolbar
+     * [[beginBodyToolbar]]
+     * your data
+     * [[endBodyToolbar]]
+     * @param array $options
+     * @throws Exception
+     */
     public function beginBodyToolbar($options = [])
     {
-        if($this->_bodyToolbarBeginning == true) {
-            throw new Exception("Toolbar was beginning.");
-        }
-        $this->_bodyToolbarBeginning = true;
+        $this->_setBeginning(true);
         $this->_bodyToolbarLastOptions = $options;
         ob_start();
     }
 
+    /**
+     * End Body Toolbar
+     * @throws Exception
+     */
     public function endBodyToolbar()
     {
-        if($this->_bodyToolbarBeginning == false) {
-            throw new Exception("Body toolbar was NOT beginning.");
-        }
-        $toolbar = ob_get_clean();
-        $toolbar = trim($toolbar);
-        if($this->bodyToolbar !== null && !is_array($this->bodyToolbar)) {
+        $this->_setBeginning(false);
+        $toolbar = trim(ob_get_clean());
+        if(is_string($this->bodyToolbar)) {
             $this->bodyToolbar = [$this->bodyToolbar];
         }
         $this->bodyToolbar[] = [
@@ -421,27 +427,31 @@ class Jarvis extends \yii\base\Widget
             'options' => $this->_bodyToolbarLastOptions,
         ];
         $this->_bodyToolbarLastOptions = [];
-        $this->_bodyToolbarBeginning = false;
     }
 
+    /**
+     * Begin Footer
+     * [[beginFooter]]
+     * your data
+     * [[endFooter]]
+     * @param array $options
+     * @throws Exception
+     */
     public function beginFooter($options = [])
     {
-        if($this->_footerBeginning == true) {
-            throw new Exception("Footer was beginning.");
-        }
-        $this->_footerBeginning = true;
+        $this->_setBeginning(true);
         $this->footerOptions = ArrayHelper::merge($this->footerOptions, $options);
         ob_start();
     }
 
+    /**
+     * End footer
+     * @throws Exception
+     */
     public function endFooter()
     {
-        if($this->_footerBeginning == false) {
-            throw new Exception("Footer was NOT beginning.");
-        }
-        $footer = ob_get_clean();
-        $this->footer = trim($footer);
-        $this->_footerBeginning = false;
+        $this->_setBeginning(false);
+        $this->footer = trim(ob_get_clean());
     }
 
     /**
@@ -558,8 +568,8 @@ class Jarvis extends \yii\base\Widget
     private function _getEditbox()
     {
         if($this->editbutton !== null || isset($this->options['data-widget-editbutton'])) {
-            Html::addCssClass($this->editboxOptions, 'jarviswidget-editbox');
-            echo Html::tag('div', $this->editbox, $this->editboxOptions);
+            Html::addCssClass($this->editBoxOptions, 'jarviswidget-editbox');
+            echo Html::tag('div', $this->editBox, $this->editBoxOptions);
         }
     }
 
@@ -601,5 +611,21 @@ class Jarvis extends \yii\base\Widget
         if($this->noPadding !== null) {
             Html::addCssClass($this->bodyOptions, 'no-padding');
         }
+    }
+
+    /**
+     * Set beginning
+     * @param $bool
+     * @throws Exception
+     */
+    private function _setBeginning($bool)
+    {
+        if(!is_bool($bool)) {
+            throw new Exception('$bool in not boolean');
+        }
+        if($this->_beginning === $bool) {
+            throw new Exception("Error begin or end.");
+        }
+        $this->_beginning = $bool;
     }
 }
