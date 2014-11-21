@@ -2,7 +2,6 @@
 namespace sersid\smartadmin;
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use yii\base\Exception;
 
 class Jarvis extends \yii\base\Widget
@@ -206,11 +205,6 @@ class Jarvis extends \yii\base\Widget
      * @var array
      */
     private $_toolbarLastOptions = [];
-
-    /**
-     * @var bool
-     */
-    private $_bodyToolbarBeginning = false;
 
     /**
      * @var array
@@ -457,7 +451,7 @@ class Jarvis extends \yii\base\Widget
     /**
      * Set data-widget-* boolean
      */
-    protected function _setDataWidgetBool()
+    private function _setDataWidgetBool()
     {
         $attributes = [
             'colorbutton',
@@ -481,7 +475,7 @@ class Jarvis extends \yii\base\Widget
     /**
      * Set color
      */
-    protected function _setColor()
+    private function _setColor()
     {
         if($this->color !== null) {
             Html::addCssClass($this->options, $this->color);
@@ -491,7 +485,7 @@ class Jarvis extends \yii\base\Widget
     /**
      * Get icon
      */
-    protected function _getIcon()
+    private function _getIcon()
     {
         if($this->icon !== null) {
             Html::addCssClass($this->iconOptions, 'widget-icon');
@@ -502,7 +496,7 @@ class Jarvis extends \yii\base\Widget
     /**
      * Get toolbar
      */
-    protected function _getToolbar()
+    private function _getToolbar()
     {
         if($this->toolbar !== null) {
             Html::addCssClass($this->toolbarOptions, 'widget-toolbar');
@@ -567,7 +561,7 @@ class Jarvis extends \yii\base\Widget
      */
     private function _getEditbox()
     {
-        if($this->editbutton !== null || isset($this->options['data-widget-editbutton'])) {
+        if($this->editbutton === null || $this->editbutton == true || (isset($this->options['data-widget-editbutton']) && $this->options['data-widget-editbutton'] == 'true' )) {
             Html::addCssClass($this->editBoxOptions, 'jarviswidget-editbox');
             echo Html::tag('div', $this->editBox, $this->editBoxOptions);
         }
