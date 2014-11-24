@@ -20,9 +20,9 @@ class Asset extends AssetBundle
     public $depends = [
         'sersid\smartadmin\assets\PaceAsset',
         'yii\web\YiiAsset',
+        'yii\jui\JuiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'yii\jui\JuiAsset',
         'sersid\smartadmin\assets\FontAwesomeAsset',
         'sersid\smartadmin\assets\jQueryUITouchPunchAsset',
         'sersid\smartadmin\assets\SmartNotificationAsset',
