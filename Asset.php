@@ -23,7 +23,7 @@ class Asset extends AssetBundle
         'yii\jui\JuiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'sersid\smartadmin\assets\FontAwesomeAsset',
+        'sersid\fontawesome\Asset',
         'sersid\smartadmin\assets\jQueryUITouchPunchAsset',
         'sersid\smartadmin\assets\SmartNotificationAsset',
         'sersid\smartadmin\assets\JarvisWidgetAsset',

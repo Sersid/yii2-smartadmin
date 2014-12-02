@@ -13,7 +13,7 @@
     "require": {
         "yiisoft/yii2": "*",
         "yiisoft/yii2-jui": "*",
-        "bower-asset/fontawesome": "*",
+        "sersid/yii2-font-awesome-asset": "*",
         "bower-asset/pace": "0.5.3",
         "bower-asset/jquery-ui-touch-punch": "dev-master",
         "bower-asset/jquery.easy-pie-chart": "*",
