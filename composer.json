@@ -15,7 +15,7 @@
         "yiisoft/yii2-jui": "*",
         "sersid/yii2-font-awesome-asset": "*",
         "bower-asset/pace": "0.5.3",
-        "bower-asset/jquery-ui-touch-punch": "dev-master",
+        "bower-asset/jqueryui-touch-punch": "dev-master",
         "bower-asset/jquery.easy-pie-chart": "*",
         "bower-asset/kapusta-jquery.sparkline": "*",
         "bower-asset/jquery-maskedinputs": "*",
