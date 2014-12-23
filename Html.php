@@ -1186,27 +1186,33 @@ class Html extends \yii\helpers\Html
             static::addCssClass($options, $flip);
         }
 
-        if (!empty(ArrayHelper::remove($options, 'inverse'))) {
+        $inverse = ArrayHelper::remove($options, 'inverse');
+        if (!empty($inverse)) {
             static::addCssClass($options, 'fa-inverse');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'spin'))) {
+        $spin = ArrayHelper::remove($options, 'spin');
+        if (!empty($spin)) {
             static::addCssClass($options, 'fa-spin');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'fw'))) {
+        $fw = ArrayHelper::remove($options, 'fw');
+        if (!empty($fw)) {
             static::addCssClass($options, 'fa-fw');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'ul'))) {
+        $ul = ArrayHelper::remove($options, 'ul');
+        if (!empty($ul)) {
             static::addCssClass($options, 'fa-ul');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'li'))) {
+        $li = ArrayHelper::remove($options, 'li');
+        if (!empty($li)) {
             static::addCssClass($options, 'fa-li');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'border'))) {
+        $border = ArrayHelper::remove($options, 'border');
+        if (!empty($border)) {
             static::addCssClass($options, 'fa-border');
         }
 
