@@ -2,6 +2,11 @@
 
 namespace sersid\smartadmin;
 
+/**
+ * Class ActiveForm
+ * @package sersid\smartadmin
+ * @method \sersid\smartadmin\ActiveField field()
+ */
 class ActiveForm extends \yii\widgets\ActiveForm
 {
     /**
