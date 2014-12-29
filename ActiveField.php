@@ -1,6 +1,8 @@
 <?php
 namespace sersid\smartadmin;
+
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 class ActiveField extends \yii\widgets\ActiveField
 {
