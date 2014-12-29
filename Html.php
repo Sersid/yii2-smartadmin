@@ -1558,4 +1558,27 @@ class Html extends \yii\helpers\Html
 
         return static::tag('div', static::tag('span', static::a(static::icon($icon, $iconOptions), $url, $linkOptions)), $options);
     }
+
+    /**
+     * @param string $action
+     * @param string $method
+     * @param array $options
+     * @return string
+     */
+    public static function beginFormSmart($action = '', $method = 'post', $options = [])
+    {
+        self::addCssClass($options, 'smart-form');
+        return parent::beginForm($action, $method, $options);
+    }
+
+    public static function labelSmart($content, $for = null, $options = [])
+    {
+        self::addCssClass($options, 'label');
+        return parent::label($content, $for, $options);
+    }
+    
+    public static function dropDownListSmart($name, $selection = null, $items = [], $options = [])
+    {
+        return self::tag('label', (parent::dropDownList($name, $selection, $items, $options) . self::tag('i')), ['class' => 'select']);
+    }
 }
