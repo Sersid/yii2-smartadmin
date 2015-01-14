@@ -1186,27 +1186,33 @@ class Html extends \yii\helpers\Html
             static::addCssClass($options, $flip);
         }
 
-        if (!empty(ArrayHelper::remove($options, 'inverse'))) {
+        $inverse = ArrayHelper::remove($options, 'inverse');
+        if (!empty($inverse)) {
             static::addCssClass($options, 'fa-inverse');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'spin'))) {
+        $spin = ArrayHelper::remove($options, 'spin');
+        if (!empty($spin)) {
             static::addCssClass($options, 'fa-spin');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'fw'))) {
+        $fw = ArrayHelper::remove($options, 'fw');
+        if (!empty($fw)) {
             static::addCssClass($options, 'fa-fw');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'ul'))) {
+        $ul = ArrayHelper::remove($options, 'ul');
+        if (!empty($ul)) {
             static::addCssClass($options, 'fa-ul');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'li'))) {
+        $li = ArrayHelper::remove($options, 'li');
+        if (!empty($li)) {
             static::addCssClass($options, 'fa-li');
         }
 
-        if (!empty(ArrayHelper::remove($options, 'border'))) {
+        $border = ArrayHelper::remove($options, 'border');
+        if (!empty($border)) {
             static::addCssClass($options, 'fa-border');
         }
 
@@ -1551,5 +1557,28 @@ class Html extends \yii\helpers\Html
         $url = ArrayHelper::remove($linkOptions, 'href', 'javascript:void(0);');
 
         return static::tag('div', static::tag('span', static::a(static::icon($icon, $iconOptions), $url, $linkOptions)), $options);
+    }
+
+    /**
+     * @param string $action
+     * @param string $method
+     * @param array $options
+     * @return string
+     */
+    public static function beginFormSmart($action = '', $method = 'post', $options = [])
+    {
+        self::addCssClass($options, 'smart-form');
+        return parent::beginForm($action, $method, $options);
+    }
+
+    public static function labelSmart($content, $for = null, $options = [])
+    {
+        self::addCssClass($options, 'label');
+        return parent::label($content, $for, $options);
+    }
+    
+    public static function dropDownListSmart($name, $selection = null, $items = [], $options = [])
+    {
+        return self::tag('label', (parent::dropDownList($name, $selection, $items, $options) . self::tag('i')), ['class' => 'select']);
     }
 }

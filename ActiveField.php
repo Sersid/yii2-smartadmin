@@ -1,6 +1,8 @@
 <?php
 namespace sersid\smartadmin;
+
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 class ActiveField extends \yii\widgets\ActiveField
 {
@@ -596,6 +598,24 @@ class ActiveField extends \yii\widgets\ActiveField
     {
         $this->tooltip = $content;
         $this->tooltipOptions = array_merge($this->tooltipOptions, $options);
+        return $this;
+    }
+
+    /**
+     * Create date picker
+     * @param array $options
+     * @return $this
+     */
+    public function datepicker($options = [])
+    {
+        $view = $this->form->getView();
+        if (array_key_exists('id', $options)) {
+            $id = $options['id'];
+        } else {
+            $id = Html::getInputId($this->model, $this->attribute);
+        }
+        $jsParams = Json::encode($options);
+        $view->registerJs("jQuery('#$id').datepicker($jsParams);");
         return $this;
     }
 }
